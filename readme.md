@@ -20,6 +20,8 @@ Clone
 git clone https://github.com/dlambujon/score-tracker.git
 ```
 
+## Available Queries
+
 ### Create Score
 
 ```
@@ -109,7 +111,7 @@ JSON Response:
   }
 ]
 ```
-Other possible queries
+Other possible queries :
 ```
 Get all scores by playerX
 Get all score after 1st November 2020
