@@ -58,18 +58,20 @@ public class ScoreServiceImpl implements ScoreService {
 		}
 
 		// remove id and name
-		HashMap<String, Object> maxScore = new HashMap<>();
-		maxScore.put("score", scoreRepository.findMaxScoreByName(name).getScore());
-		maxScore.put("time", scoreRepository.findMaxScoreByName(name).getTime());
+		HashMap<String, Object> hashedMaxScore = new HashMap<>();
+		Score maxScore = scoreRepository.findTopByNameOrderByScoreDesc(name);
+		hashedMaxScore.put("score", maxScore.getScore());
+		hashedMaxScore.put("time", maxScore.getTime());
 
 		// remove id and name
-		HashMap<String, Object> minScore = new HashMap<>();
-		minScore.put("score", scoreRepository.findMinScoreByName(name).getScore());
-		minScore.put("time", scoreRepository.findMinScoreByName(name).getTime());
+		HashMap<String, Object> hashedMinScore = new HashMap<>();
+		Score minScore = scoreRepository.findTopByNameOrderByScoreAsc(name);
+		hashedMinScore.put("score", minScore.getScore());
+		hashedMinScore.put("time", minScore.getTime());
 
 		HashMap<String, Object> playerHistory = new HashMap<>();
-		playerHistory.put("topScore", maxScore);
-		playerHistory.put("lowestScore", minScore);
+		playerHistory.put("topScore", hashedMaxScore);
+		playerHistory.put("lowestScore", hashedMinScore);
 		playerHistory.put("averageScore", scoreRepository.findAvgScoreByName(name));
 		playerHistory.put("scoreList", newScoresByName);
 
