@@ -25,7 +25,7 @@ import com.oyorooms.scoretracker.service.ScoreService;
 @RestController
 @RequestMapping("/api/scores")
 public class ScoreController {
-	private ScoreService scoreService;
+	private final ScoreService scoreService;
 
 	public ScoreController(ScoreService scoreService) {
 		super();
@@ -36,14 +36,14 @@ public class ScoreController {
 	@PostMapping()
 	// http://localhost:8080/api/scores
  	public ResponseEntity<Score> saveScore(@RequestBody Score score) {
-		return new ResponseEntity<Score>(scoreService.saveScore(score), HttpStatus.CREATED);
+		return new ResponseEntity<>(scoreService.saveScore(score), HttpStatus.CREATED);
 	}
 
 	// build get score by id REST API
 	// http://localhost:8080/api/scores/1
 	@GetMapping("{id}")
 	public ResponseEntity<Score> getScoreById(@PathVariable("id") long id) {
-		return new ResponseEntity<Score>(scoreService.getScoreById(id), HttpStatus.OK);
+		return new ResponseEntity<>(scoreService.getScoreById(id), HttpStatus.OK);
 	}
 	
 	// build get all scores REST API
@@ -66,7 +66,7 @@ public class ScoreController {
 			scoreService.getScoresByDateRange(afterDate, beforeDate, pageable) :
 			scoreService.getScoresByNamesDateRange(name, afterDate, beforeDate, pageable);
 
-		return new ResponseEntity<List<Score>>(scores, HttpStatus.OK);
+		return new ResponseEntity<>(scores, HttpStatus.OK);
 	}
 
 	// build get all scores REST API
@@ -74,7 +74,7 @@ public class ScoreController {
 	@GetMapping("/history")
 	@ResponseBody
 	public ResponseEntity<HashMap<String, Object>> getPlayerHistory(@RequestParam String name) {
-		return new ResponseEntity<HashMap<String, Object>>(scoreService.getPlayerHistory(name), HttpStatus.OK);
+		return new ResponseEntity<>(scoreService.getPlayerHistory(name), HttpStatus.OK);
 	}	
 
 	// build delete score REST API
@@ -83,7 +83,6 @@ public class ScoreController {
 	public ResponseEntity<String> deleteScore(@PathVariable("id") long id){
 		scoreService.deleteScoreById(id);
 		
-		return new ResponseEntity<String>(String.format("Score with id=%s was deleted successfully!.", id), HttpStatus.OK);
+		return new ResponseEntity<>(String.format("Score with id=%s was deleted successfully!.", id), HttpStatus.OK);
 	}
-	
 }

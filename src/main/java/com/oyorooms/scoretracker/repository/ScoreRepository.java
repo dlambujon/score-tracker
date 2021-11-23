@@ -9,11 +9,11 @@ import org.springframework.data.jpa.repository.Query;
 import com.oyorooms.scoretracker.model.Score;
 
 public interface ScoreRepository extends JpaRepository<Score, Long>{
-	@Query("SELECT MAX(score), time FROM Score WHERE name=?1")
-	Object findMaxScoreByName(String name);
+	@Query(nativeQuery = true, value = "SELECT id, name, MAX(score) as score, time FROM Scores WHERE name=?1")
+	Score findMaxScoreByName(String name);
 
-	@Query("SELECT MIN(score), time FROM Score WHERE name=?1")
-	Object findMinScoreByName(String name);
+	@Query(nativeQuery = true, value = "SELECT id, name, MIN(score) as score, time FROM Scores WHERE name=?1")
+	Score findMinScoreByName(String name);
 
 	@Query("SELECT AVG(score) FROM Score WHERE name=?1")
 	double findAvgScoreByName(String name);

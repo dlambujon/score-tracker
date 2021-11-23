@@ -1,5 +1,6 @@
 package com.oyorooms.scoretracker.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import com.oyorooms.scoretracker.service.ScoreService;
 
 @Service
 public class ScoreServiceImpl implements ScoreService {
-	private ScoreRepository scoreRepository;
+	private final ScoreRepository scoreRepository;
 
 	public ScoreServiceImpl(ScoreRepository scoreRepository) {
 		super();
@@ -36,8 +37,7 @@ public class ScoreServiceImpl implements ScoreService {
 	}
 
 	@Override
-	public List<Score> getScoresByNamesDateRange(List<String> nameList, String afterDate, String beforeDate,
-			Pageable pageable) {
+	public List<Score> getScoresByNamesDateRange(List<String> nameList, String afterDate, String beforeDate, Pageable pageable) {
 		return scoreRepository.getScoresByNamesDateRange(nameList, afterDate, beforeDate, pageable);
 	}
 
@@ -48,25 +48,30 @@ public class ScoreServiceImpl implements ScoreService {
 			throw new ResourceNotFoundException("Score", "Name", name);
 		}
 
-		int topScore = 0;
-		int lowestScore = 0;
-		int averageScore = 0;
-		for (Score score : scoresByName) {
-			if (score.getScore() > topScore) {
-				topScore = score.getScore();
-			}
-			if (score.getScore() < lowestScore) {
-				lowestScore = score.getScore();
-			}
+		// remove id and name
+		List<HashMap<String, Object>> newScoresByName = new ArrayList<>();
+		for (Score score: scoresByName) {
+			HashMap<String, Object> newScore = new HashMap<>();
+			newScore.put("score", score.getScore());
+			newScore.put("time", score.getTime());
+			newScoresByName.add(newScore);
 		}
-		System.out.println(topScore);
-		System.out.println(lowestScore);
 
-		HashMap<String, Object> playerHistory = new HashMap<String, Object>();
-		playerHistory.put("topScore", scoreRepository.findMaxScoreByName(name));
-		playerHistory.put("lowestScore", scoreRepository.findMinScoreByName(name));
+		// remove id and name
+		HashMap<String, Object> maxScore = new HashMap<>();
+		maxScore.put("score", scoreRepository.findMaxScoreByName(name).getScore());
+		maxScore.put("time", scoreRepository.findMaxScoreByName(name).getTime());
+
+		// remove id and name
+		HashMap<String, Object> minScore = new HashMap<>();
+		minScore.put("score", scoreRepository.findMinScoreByName(name).getScore());
+		minScore.put("time", scoreRepository.findMinScoreByName(name).getTime());
+
+		HashMap<String, Object> playerHistory = new HashMap<>();
+		playerHistory.put("topScore", maxScore);
+		playerHistory.put("lowestScore", minScore);
 		playerHistory.put("averageScore", scoreRepository.findAvgScoreByName(name));
-		playerHistory.put("scoreList", scoresByName);
+		playerHistory.put("scoreList", newScoresByName);
 
 		return playerHistory;
 	}
