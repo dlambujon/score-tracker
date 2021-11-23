@@ -33,12 +33,12 @@ public class ScoreServiceImpl implements ScoreService {
 
 	@Override
 	public List<Score> getScoresByDateRange(String afterDate, String beforeDate, Pageable pageable) {
-		return scoreRepository.getScoresByDateRange(afterDate, beforeDate, pageable);
+		return scoreRepository.findScoresByDateRange(afterDate, beforeDate, pageable);
 	}
 
 	@Override
 	public List<Score> getScoresByNamesDateRange(List<String> nameList, String afterDate, String beforeDate, Pageable pageable) {
-		return scoreRepository.getScoresByNamesDateRange(nameList, afterDate, beforeDate, pageable);
+		return scoreRepository.findScoresByNamesDateRange(nameList, afterDate, beforeDate, pageable);
 	}
 
 	@Override
