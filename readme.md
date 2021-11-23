@@ -10,6 +10,7 @@ This is an API which keep scores for a certain game for a group of players. See 
 * Gradle 7.2
 * Spring Boot 2.6.0
 * JUnit 5
+* MySQL
 * IntelliJ
 
 Clone
@@ -22,6 +23,7 @@ git clone https://github.com/dlambujon/score-tracker.git
 ### Create Score
 
 ```
+PostMapping
 http://localhost:8080/api/scores
 ```
 
@@ -48,6 +50,7 @@ JSON _Response_:
 ### Get Score 
 
 ```
+GetMapping
 http://localhost:8080/api/scores/1
 ```
 
@@ -65,6 +68,7 @@ JSON Response:
 ### Delete Score
 
 ```
+DeleteMapping
 http://localhost:8080/api/scores/1
 ```
 
@@ -77,6 +81,7 @@ Response Message:
 ### Get list of all scores
 
 ```
+GetMapping
 http://localhost:8080/api/scores
 ```
 
@@ -92,7 +97,7 @@ JSON Response:
   },
   {
     "id": 2,
-    "score": 1000,
+    "score": 2000,
     "name": "Player1",
     "time": "2020-10-01 10:00:00"
   },
@@ -116,6 +121,7 @@ Get all scores after 1 Jan 2020 and before 1 Jan 2021
 ### Get players' history
 
 ```
+GetMapping
 http://localhost:8080/api/scores/history?name=Player1
 ```
 
@@ -123,28 +129,24 @@ JSON Response:
 
 ```json
 {
-  "scoreList": [
-    {
-      "id": 1,
-      "score": 1000,
-      "name": "Player1",
-      "time": "2019-01-01 10:00:00"
-    },
-    {
-      "id": 2,
-      "score": 1000,
-      "name": "Player1",
-      "time": "2020-01-01 10:00:00"
-    }
-  ],
-  "topScore": [
-    1000,
-    "2019-01-01 10:00:00"
-  ],
-  "lowestScore": [
-    1000,
-    "2019-01-01 10:00:00"
-  ],
-  "averageScore": 1000.0
+    "scoreList": [
+        {
+            "score": 1000,
+            "time": "2021-01-01 10:00:00"
+        },
+        {
+            "score": 2000,
+            "time": "2021-01-01 10:00:00"
+        }
+    ],
+    "topScore": [
+        "score": 2000,
+        "time": "2021-01-01 10:00:00"
+    ],
+    "lowestScore": [
+        "score": 1000,
+        "time": "2021-01-01 10:00:00"
+    ],
+    "averageScore": 1500.0
 }
 ```
