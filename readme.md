@@ -10,7 +10,6 @@ This is an API which keep scores for a certain game for a group of players. See 
 * Spring Boot 2.6.0
 * JUnit 5
 * MySQL
-* IntelliJ
 
 Clone
 --------
