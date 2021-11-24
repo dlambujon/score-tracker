@@ -3,13 +3,14 @@
 ## Purpose
 This is an API which keep scores for a certain game for a group of players. See also the available queries below.
 
-## Prerequisites
+## Tools used
 
 * Java 8
 * Gradle 7.2
 * Spring Boot 2.6.0
 * JUnit 5
 * MySQL
+* IntelliJ or Spring Test Suite (STS)
 
 Clone
 --------
