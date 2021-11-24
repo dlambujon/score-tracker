@@ -1,6 +1,5 @@
-# Score Tracker Spring Boot
+# Score Tracker App Spring Boot
 
-===================================================
 ## Purpose
 This is an API which keep scores for a certain game for a group of players. See available queries below.
 
