@@ -73,7 +73,7 @@ public class ScoreController {
 		
 		List<Score> scores = (nameList == null || nameList.size() == 0) ?
 			scoreService.getScoresByDateRange(afterDate, beforeDate, pageable) :
-			scoreService.getScoresByNamesDateRange(nameList, afterDate, beforeDate, pageable);
+			scoreService.getScoresByNameListDateRange(nameList, afterDate, beforeDate, pageable);
 
 		return new ResponseEntity<>(scores, HttpStatus.OK);
 	}
