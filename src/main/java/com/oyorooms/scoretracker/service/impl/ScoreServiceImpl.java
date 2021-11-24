@@ -27,6 +27,12 @@ public class ScoreServiceImpl implements ScoreService {
 	}
 
 	@Override
+	public void deleteScoreById(long id) {
+		scoreRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Score", "Id", id));
+		scoreRepository.deleteById(id);
+	}
+
+	@Override
 	public Score getScoreById(long id) {
 		return scoreRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Score", "Id", id));
 	}
@@ -76,11 +82,5 @@ public class ScoreServiceImpl implements ScoreService {
 		playerHistory.put("scoreList", newScoresByName);
 
 		return playerHistory;
-	}
-
-	@Override
-	public void deleteScoreById(long id) {
-		scoreRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Player", "Id", id));
-		scoreRepository.deleteById(id);
 	}
 }

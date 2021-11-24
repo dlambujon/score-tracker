@@ -33,10 +33,19 @@ public class ScoreController {
 	}
 	
 	// build create score of player REST API
-	@PostMapping()
+	@PostMapping
 	// http://localhost:8080/api/scores
  	public ResponseEntity<Score> saveScore(@RequestBody Score score) {
 		return new ResponseEntity<>(scoreService.saveScore(score), HttpStatus.CREATED);
+	}
+
+	// build delete score REST API
+	// http://localhost:8080/api/scores/1
+	@DeleteMapping("{id}")
+	public ResponseEntity<String> deleteScoreById(@PathVariable("id") long id){
+		scoreService.deleteScoreById(id);
+
+		return new ResponseEntity<>(String.format("Score with id=%s was deleted successfully!.", id), HttpStatus.OK);
 	}
 
 	// build get score by id REST API
@@ -51,20 +60,20 @@ public class ScoreController {
 	@GetMapping
 	@ResponseBody
 	public ResponseEntity<List<Score>> getListOfScores(
-		@RequestParam(required = false) List<String> name, 
+		@RequestParam(required = false) List<String> nameList,
 		@RequestParam(required = false) String afterDate, 
 		@RequestParam(required = false) String beforeDate,
-		@RequestParam(required = false, defaultValue = "0") int pageNumber,
+		@RequestParam(required = false, defaultValue = "1") int pageNumber,
 		@RequestParam(required = false, defaultValue = "10") int pageSize,
 		@RequestParam(required = false, defaultValue = "id") String sortBy,
 		@RequestParam(required = false, defaultValue = "asc") String sortDir
 	) {
 		Sort sort = (sortDir.equals("desc")) ? Sort.by(sortBy).descending() : Sort.by(sortBy);
-		Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
+		Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, sort);
 		
-		List<Score> scores = (name == null || name.size() == 0) ? 
+		List<Score> scores = (nameList == null || nameList.size() == 0) ?
 			scoreService.getScoresByDateRange(afterDate, beforeDate, pageable) :
-			scoreService.getScoresByNamesDateRange(name, afterDate, beforeDate, pageable);
+			scoreService.getScoresByNamesDateRange(nameList, afterDate, beforeDate, pageable);
 
 		return new ResponseEntity<>(scores, HttpStatus.OK);
 	}
@@ -76,13 +85,4 @@ public class ScoreController {
 	public ResponseEntity<HashMap<String, Object>> getPlayerHistory(@RequestParam String name) {
 		return new ResponseEntity<>(scoreService.getPlayerHistory(name), HttpStatus.OK);
 	}	
-
-	// build delete score REST API
-	// http://localhost:8080/api/scores/1
-	@DeleteMapping("{id}")
-	public ResponseEntity<String> deleteScore(@PathVariable("id") long id){
-		scoreService.deleteScoreById(id);
-		
-		return new ResponseEntity<>(String.format("Score with id=%s was deleted successfully!.", id), HttpStatus.OK);
-	}
 }

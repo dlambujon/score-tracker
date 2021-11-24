@@ -9,6 +9,9 @@ import org.springframework.data.jpa.repository.Query;
 import com.oyorooms.scoretracker.model.Score;
 
 public interface ScoreRepository extends JpaRepository<Score, Long>{
+
+	List<Score> findByName(String name);
+
 	Score findTopByNameOrderByScoreDesc(String name);
 
 	Score findTopByNameOrderByScoreAsc(String name);
@@ -21,6 +24,4 @@ public interface ScoreRepository extends JpaRepository<Score, Long>{
 
 	@Query("FROM Score WHERE name IN (?1) AND (?2 IS NULL OR time > ?2) AND (?3 is null OR time < ?3)")
 	List<Score> findScoresByNamesDateRange(List<String> nameList, String afterDate, String beforeDate, Pageable pageable);
-
-	List<Score> findByName(String name);
 }
