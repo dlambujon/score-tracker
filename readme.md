@@ -1,6 +1,5 @@
-# Score Tracker Spring Boot
+# Score Tracker App Spring Boot
 
-===================================================
 ## Purpose
 This is an API which keep scores for a certain game for a group of players. See available queries below.
 
@@ -11,7 +10,6 @@ This is an API which keep scores for a certain game for a group of players. See 
 * Spring Boot 2.6.0
 * JUnit 5
 * MySQL
-* IntelliJ
 
 Clone
 --------
@@ -19,6 +17,8 @@ Clone
 ```sh
 git clone https://github.com/dlambujon/score-tracker.git
 ```
+
+## Available Queries
 
 ### Create Score
 
@@ -109,7 +109,7 @@ JSON Response:
   }
 ]
 ```
-Other possible queries
+Other possible queries :
 ```
 Get all scores by playerX
 Get all score after 1st November 2020
