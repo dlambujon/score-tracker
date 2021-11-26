@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -40,6 +41,7 @@ public class Score {
 	private long id;
 
 	@Column(name="score", nullable=false)
+	@Min(value = 1, message = "Value should be superior to 0")
 	private int score;
 
 	@Column(name="name", nullable=false)
