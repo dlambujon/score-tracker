@@ -8,10 +8,8 @@ import static org.mockito.Mockito.when;
 import com.oyorooms.scoretracker.model.Score;
 import com.oyorooms.scoretracker.repository.ScoreRepository;
 import com.oyorooms.scoretracker.service.ScoreService;
-import org.junit.Before;
 import org.junit.jupiter.api.*;
 import org.junit.runner.RunWith;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -51,6 +49,7 @@ class ScoreControllerUnitTest {
 		when(scoreRepository.findById(score.getId())).thenReturn(Optional.of(score));
 
 		scoreService.deleteScoreById(score.getId());
+
 		verify(scoreRepository).deleteById(score.getId());
 	}
 
