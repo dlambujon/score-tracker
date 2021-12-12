@@ -56,7 +56,7 @@ class ScoreControllerUnitTest {
 
 	@Test
 	public void getScoreByIdTest() {
-		Score score = new Score(1L, 100, "TestPlayer", "2020-10-10 20:00:00");
+		Score score = new Score(1, 100, "TestPlayer", "2020-10-10 20:00:00");
 
 		when(scoreRepository.findById(score.getId())).thenReturn(Optional.of(score));
 
