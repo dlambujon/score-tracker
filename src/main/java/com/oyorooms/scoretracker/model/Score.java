@@ -21,13 +21,6 @@ public class Score {
 		super();
 	}
 
-	public Score(int score, String name, String time) {
-		super();
-		this.score = score;
-		this.name = name;
-		this.time = time;
-	}
-
 	public Score(long id, int score, String name, String time) {
 		super();
 		this.id = id;

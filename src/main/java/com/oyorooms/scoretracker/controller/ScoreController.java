@@ -78,7 +78,7 @@ public class ScoreController {
 		return new ResponseEntity<>(scores, HttpStatus.OK);
 	}
 
-	// build get all scores REST API
+	// build player history REST API
 	// http://localhost:8080/api/scores/history?name=player1
 	@GetMapping("/history")
 	@ResponseBody
