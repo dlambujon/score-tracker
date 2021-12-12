@@ -31,15 +31,10 @@ import java.util.stream.Stream;
 class ScoreControllerUnitTest {
 
 	@Autowired
-	ScoreService scoreService;
+	private ScoreService scoreService;
 
 	@MockBean
 	private ScoreRepository scoreRepository;
-
-	@Before
-	public void init() {
-		MockitoAnnotations.openMocks(this);
-	}
 
 	@Test
 	public void saveScoreTest(){
