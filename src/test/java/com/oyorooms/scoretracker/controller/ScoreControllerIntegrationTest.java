@@ -23,7 +23,7 @@ class ScoreControllerIntegrationTest {
     private static final String URL = "/api/scores/";
 
     @Test
-    void saveScore() {
+    public void saveScore() {
         Score score = new Score(1, 1000, "TestPlayer", "2021-01-01 10:00:00");
         ResponseEntity<Score> responseEntity = restTemplate.postForEntity(URL, score, Score.class);
 
@@ -31,7 +31,7 @@ class ScoreControllerIntegrationTest {
     }
 
     @Test
-    void deleteScoreById() {
+    public void deleteScoreById() {
         ResponseEntity<?> responseEntity = restTemplate.exchange(URL + "1", HttpMethod.DELETE,
                 new HttpEntity<>(""),
                 String.class);
@@ -40,7 +40,7 @@ class ScoreControllerIntegrationTest {
     }
 
     @Test
-    void getScoreById() {
+    public void getScoreById() {
         ResponseEntity<Score> responseEntity = restTemplate.exchange(URL + "1",
                 HttpMethod.GET,
                 new HttpEntity<>(""),
@@ -50,7 +50,7 @@ class ScoreControllerIntegrationTest {
     }
 
     @Test
-    void getListOfScores() {
+    public void getListOfScores() {
         ResponseEntity<String> responseEntity = restTemplate.exchange(URL,
                 HttpMethod.GET,
                 new HttpEntity<>(""),
@@ -60,7 +60,7 @@ class ScoreControllerIntegrationTest {
     }
 
     @Test
-    void getListOfScoresWithParamaters() {
+    public void getListOfScoresWithParamaters() {
         String parameterString = "?name=TestPlayer,TestPlayer2&afterDate=2020-01-01&beforeDate=2022-01-01&pageNumber=2&pageSize=5&sortBy=name&sortDir=desc";
         ResponseEntity<String> responseEntity = restTemplate.exchange(URL + parameterString,
                 HttpMethod.GET,
@@ -71,7 +71,7 @@ class ScoreControllerIntegrationTest {
     }
 
     @Test
-    void getPlayerHistory() {
+    public void getPlayerHistory() {
         ResponseEntity<Object> responseEntity = restTemplate.exchange(URL + "history?name=TestPlayer",
                 HttpMethod.GET,
                 new HttpEntity<>(""),
