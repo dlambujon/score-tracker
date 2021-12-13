@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -14,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestPropertySource(locations = "classpath:test.properties")
 @Sql({ "classpath:init-data.sql" })
 class ScoreControllerIntegrationTest {
 
@@ -23,7 +25,7 @@ class ScoreControllerIntegrationTest {
     private static final String URL = "/api/scores/";
 
     @Test
-    public void saveScore() {
+    public void createScore() {
         Score score = new Score(1, 1000, "TestPlayer", "2021-01-01 10:00:00");
         ResponseEntity<Score> responseEntity = restTemplate.postForEntity(URL, score, Score.class);
 
@@ -60,7 +62,7 @@ class ScoreControllerIntegrationTest {
     }
 
     @Test
-    public void getListOfScoresWithParamaters() {
+    public void getListOfScoresWithParameters() {
         String parameterString = "?name=TestPlayer,TestPlayer2&afterDate=2020-01-01&beforeDate=2022-01-01&pageNumber=2&pageSize=5&sortBy=name&sortDir=desc";
         ResponseEntity<String> responseEntity = restTemplate.exchange(URL + parameterString,
                 HttpMethod.GET,

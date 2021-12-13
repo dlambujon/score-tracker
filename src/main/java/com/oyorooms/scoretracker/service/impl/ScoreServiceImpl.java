@@ -22,7 +22,7 @@ public class ScoreServiceImpl implements ScoreService {
 	}
 
 	@Override
-	public Score saveScore(Score score) {
+	public Score createScore(Score score) {
 		return scoreRepository.save(score);
 	}
 
@@ -44,7 +44,7 @@ public class ScoreServiceImpl implements ScoreService {
 
 	@Override
 	public List<Score> getScoresByNameListDateRange(List<String> nameList, String afterDate, String beforeDate, Pageable pageable) {
-		return scoreRepository.findScoresByNamesDateRange(nameList, afterDate, beforeDate, pageable);
+		return scoreRepository.findScoresByNameListDateRange(nameList, afterDate, beforeDate, pageable);
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class ScoreServiceImpl implements ScoreService {
 			throw new ResourceNotFoundException("Score", "Name", name);
 		}
 
-		// remove id and name
+		// remove id and name (scoreList)
 		List<HashMap<String, Object>> newScoresByName = new ArrayList<>();
 		for (Score score: scoresByName) {
 			HashMap<String, Object> newScore = new HashMap<>();
@@ -63,13 +63,13 @@ public class ScoreServiceImpl implements ScoreService {
 			newScoresByName.add(newScore);
 		}
 
-		// remove id and name
+		// remove id and name (topScore)
 		HashMap<String, Object> hashedMaxScore = new HashMap<>();
 		Score maxScore = scoreRepository.findTopByNameOrderByScoreDesc(name);
 		hashedMaxScore.put("score", maxScore.getScore());
 		hashedMaxScore.put("time", maxScore.getTime());
 
-		// remove id and name
+		// remove id and name (lowestScore)
 		HashMap<String, Object> hashedMinScore = new HashMap<>();
 		Score minScore = scoreRepository.findTopByNameOrderByScoreAsc(name);
 		hashedMinScore.put("score", minScore.getScore());

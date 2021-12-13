@@ -33,10 +33,10 @@ public class ScoreController {
 	}
 	
 	// build create score of player REST API
-	@PostMapping
 	// http://localhost:8080/api/scores
- 	public ResponseEntity<Score> saveScore(@RequestBody Score score) {
-		return new ResponseEntity<>(scoreService.saveScore(score), HttpStatus.CREATED);
+	@PostMapping
+ 	public ResponseEntity<Score> createScore(@RequestBody Score score) {
+		return new ResponseEntity<>(scoreService.createScore(score), HttpStatus.CREATED);
 	}
 
 	// build delete score REST API
@@ -56,7 +56,7 @@ public class ScoreController {
 	}
 	
 	// build get all scores REST API
-	// http://localhost:8080/api/scores?name=player1,player2&afterDate=2020-01-01&beforeDate=2021-01-01
+	// http://localhost:8080/api/scores?name=player1,player2&afterDate=2020-01-01&beforeDate=2021-01-01&pageNumber=2&pageSize=5&sortBy=name&sortDir=desc
 	@GetMapping
 	@ResponseBody
 	public ResponseEntity<List<Score>> getListOfScores(

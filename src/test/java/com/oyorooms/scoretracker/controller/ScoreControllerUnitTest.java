@@ -16,6 +16,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ import java.util.stream.Stream;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@TestPropertySource(locations = "classpath:test.properties")
 class ScoreControllerUnitTest {
 
 	@Autowired
@@ -35,15 +37,15 @@ class ScoreControllerUnitTest {
 	private ScoreRepository scoreRepository;
 
 	@Test
-	public void saveScore(){
+	public void createScore() {
 		Score score = new Score(1, 100, "TestPlayer", "2020-10-10 20:00:00");
 		when(scoreRepository.save(score)).thenReturn(score);
 
-		assertEquals(score, scoreService.saveScore(score));
+		assertEquals(score, scoreService.createScore(score));
 	}
 
 	@Test
-	public void deleteScore(){
+	public void deleteScore() {
 		Score score = new Score(1, 100, "TestPlayer", "2020-10-10 20:00:00");
 
 		when(scoreRepository.findById(score.getId())).thenReturn(Optional.of(score));
@@ -65,7 +67,7 @@ class ScoreControllerUnitTest {
 	}
 
 	@Test
-	public void getScoresByDateRange(){
+	public void getScoresByDateRangeAfterDateAndBeforeDateIsSet() {
 		Score score1 = new Score(1, 100, "TestPlayer", "2020-10-10 20:00:00");
 		Score score2 = new Score(2, 200, "TestPlayer", "2021-10-10 20:00:00");
 
@@ -81,7 +83,55 @@ class ScoreControllerUnitTest {
 	}
 
 	@Test
-	public void getScoresByNamesDateRange(){
+	public void getScoresByDateRangeBeforeDateNotSet() {
+		Score score1 = new Score(1, 100, "TestPlayer", "2020-10-10 20:00:00");
+		Score score2 = new Score(2, 200, "TestPlayer", "2021-10-10 20:00:00");
+
+		Pageable pageable = PageRequest.of(0, 10, Sort.by("id").descending());
+
+		when(scoreRepository
+				.findScoresByDateRange("2021-01-01", "", pageable))
+				.thenReturn(Stream.of(score1, score2).collect(Collectors.toList()));
+
+		List<Score> result = scoreService.getScoresByDateRange("2021-01-01", "", pageable);
+
+		assertEquals(2, result.size());
+	}
+
+	@Test
+	public void getScoresByDateRangeAfterDateNotSet() {
+		Score score1 = new Score(1, 100, "TestPlayer", "2020-10-10 20:00:00");
+		Score score2 = new Score(2, 200, "TestPlayer", "2021-10-10 20:00:00");
+
+		Pageable pageable = PageRequest.of(0, 10, Sort.by("id").descending());
+
+		when(scoreRepository
+				.findScoresByDateRange("", "2022-01-01", pageable))
+				.thenReturn(Stream.of(score1, score2).collect(Collectors.toList()));
+
+		List<Score> result = scoreService.getScoresByDateRange("", "2022-01-01", pageable);
+
+		assertEquals(2, result.size());
+	}
+
+	@Test
+	public void getScoresByDateRangeAfterDateAndBeforeDateNotSet() {
+		Score score1 = new Score(1, 100, "TestPlayer", "2020-10-10 20:00:00");
+		Score score2 = new Score(2, 200, "TestPlayer", "2021-10-10 20:00:00");
+
+		Pageable pageable = PageRequest.of(0, 10, Sort.by("id").descending());
+
+		when(scoreRepository
+				.findScoresByDateRange("", "", pageable))
+				.thenReturn(Stream.of(score1, score2).collect(Collectors.toList()));
+
+		List<Score> result = scoreService.getScoresByDateRange("", "", pageable);
+
+		assertEquals(2, result.size());
+	}
+
+	@Test
+	public void getScoresByNamesDateRangeAfterDateAndBeforeDateIsSet() {
 		Score score1 = new Score(1, 100, "TestPlayer", "2020-10-10 20:00:00");
 		Score score2 = new Score(2, 200, "TestPlayer", "2021-10-10 20:00:00");
 
@@ -90,7 +140,7 @@ class ScoreControllerUnitTest {
 		List<String> nameListInput = new ArrayList<>();
 		nameListInput.add("TestPlayer");
 		when(scoreRepository
-				.findScoresByNamesDateRange(nameListInput, "2020-01-01", "2022-01-01", pageable))
+				.findScoresByNameListDateRange(nameListInput, "2020-01-01", "2022-01-01", pageable))
 				.thenReturn(Stream.of(score1, score2).collect(Collectors.toList()));
 
 		List<String> nameListResult = new ArrayList<>();
@@ -104,7 +154,76 @@ class ScoreControllerUnitTest {
 	}
 
 	@Test
-	public void getPlayerHistory(){
+	public void getScoresByNamesDateRangeBeforeDateNotSet() {
+		Score score1 = new Score(1, 100, "TestPlayer", "2020-10-10 20:00:00");
+		Score score2 = new Score(2, 200, "TestPlayer", "2021-10-10 20:00:00");
+
+		Pageable pageable = PageRequest.of(0, 10, Sort.by("id").descending());
+
+		List<String> nameListInput = new ArrayList<>();
+		nameListInput.add("TestPlayer");
+		when(scoreRepository
+				.findScoresByNameListDateRange(nameListInput, "2020-01-01", "", pageable))
+				.thenReturn(Stream.of(score1, score2).collect(Collectors.toList()));
+
+		List<String> nameListResult = new ArrayList<>();
+		nameListResult.add("TestPlayer");
+		List<Score> result = scoreService.getScoresByNameListDateRange(nameListResult,
+				"2020-01-01",
+				"",
+				pageable);
+
+		assertEquals(2, result.size());
+	}
+
+	@Test
+	public void getScoresByNamesDateRangeAfterDateNotSet() {
+		Score score1 = new Score(1, 100, "TestPlayer", "2020-10-10 20:00:00");
+		Score score2 = new Score(2, 200, "TestPlayer", "2021-10-10 20:00:00");
+
+		Pageable pageable = PageRequest.of(0, 10, Sort.by("id").descending());
+
+		List<String> nameListInput = new ArrayList<>();
+		nameListInput.add("TestPlayer");
+		when(scoreRepository
+				.findScoresByNameListDateRange(nameListInput, "", "2022-01-01", pageable))
+				.thenReturn(Stream.of(score1, score2).collect(Collectors.toList()));
+
+		List<String> nameListResult = new ArrayList<>();
+		nameListResult.add("TestPlayer");
+		List<Score> result = scoreService.getScoresByNameListDateRange(nameListResult,
+				"",
+				"2022-01-01",
+				pageable);
+
+		assertEquals(2, result.size());
+	}
+
+	@Test
+	public void getScoresByNamesDateRangeAfterDateAndBeforeDateNotSet() {
+		Score score1 = new Score(1, 100, "TestPlayer", "2020-10-10 20:00:00");
+		Score score2 = new Score(2, 200, "TestPlayer", "2021-10-10 20:00:00");
+
+		Pageable pageable = PageRequest.of(0, 10, Sort.by("id").descending());
+
+		List<String> nameListInput = new ArrayList<>();
+		nameListInput.add("TestPlayer");
+		when(scoreRepository
+				.findScoresByNameListDateRange(nameListInput, "", "", pageable))
+				.thenReturn(Stream.of(score1, score2).collect(Collectors.toList()));
+
+		List<String> nameListResult = new ArrayList<>();
+		nameListResult.add("TestPlayer");
+		List<Score> result = scoreService.getScoresByNameListDateRange(nameListResult,
+				"",
+				"",
+				pageable);
+
+		assertEquals(2, result.size());
+	}
+
+	@Test
+	public void getPlayerHistory() {
 		Score score1 = new Score(1, 100, "TestPlayer", "2020-10-10 20:00:00");
 		Score score2 = new Score(2, 200, "TestPlayer", "2021-10-10 20:00:00");
 

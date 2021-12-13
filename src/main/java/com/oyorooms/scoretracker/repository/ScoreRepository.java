@@ -23,5 +23,5 @@ public interface ScoreRepository extends JpaRepository<Score, Long>{
 	List<Score> findScoresByDateRange(String afterDate, String beforeDate, Pageable pageable);
 
 	@Query("FROM Score WHERE name IN (?1) AND (?2 IS NULL OR time > ?2) AND (?3 is null OR time < ?3)")
-	List<Score> findScoresByNamesDateRange(List<String> nameList, String afterDate, String beforeDate, Pageable pageable);
+	List<Score> findScoresByNameListDateRange(List<String> nameList, String afterDate, String beforeDate, Pageable pageable);
 }

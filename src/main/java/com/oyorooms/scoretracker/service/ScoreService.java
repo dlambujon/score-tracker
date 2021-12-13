@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import com.oyorooms.scoretracker.model.Score;
 
 public interface ScoreService {
-	Score saveScore(Score score);
+	Score createScore(Score score);
 
 	void deleteScoreById(long id);
 
