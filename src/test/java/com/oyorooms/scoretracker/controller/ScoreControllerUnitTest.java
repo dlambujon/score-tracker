@@ -35,7 +35,7 @@ class ScoreControllerUnitTest {
 	private ScoreRepository scoreRepository;
 
 	@Test
-	public void saveScoreTest(){
+	public void saveScore(){
 		Score score = new Score(1, 100, "TestPlayer", "2020-10-10 20:00:00");
 		when(scoreRepository.save(score)).thenReturn(score);
 
@@ -43,7 +43,7 @@ class ScoreControllerUnitTest {
 	}
 
 	@Test
-	public void deleteScoreTest(){
+	public void deleteScore(){
 		Score score = new Score(1, 100, "TestPlayer", "2020-10-10 20:00:00");
 
 		when(scoreRepository.findById(score.getId())).thenReturn(Optional.of(score));
@@ -54,7 +54,7 @@ class ScoreControllerUnitTest {
 	}
 
 	@Test
-	public void getScoreByIdTest() {
+	public void getScoreById() {
 		Score score = new Score(1, 100, "TestPlayer", "2020-10-10 20:00:00");
 
 		when(scoreRepository.findById(score.getId())).thenReturn(Optional.of(score));
@@ -65,7 +65,7 @@ class ScoreControllerUnitTest {
 	}
 
 	@Test
-	public void getScoresByDateRangeTest(){
+	public void getScoresByDateRange(){
 		Score score1 = new Score(1, 100, "TestPlayer", "2020-10-10 20:00:00");
 		Score score2 = new Score(2, 200, "TestPlayer", "2021-10-10 20:00:00");
 
@@ -81,7 +81,7 @@ class ScoreControllerUnitTest {
 	}
 
 	@Test
-	public void getScoresByNamesDateRangeTest(){
+	public void getScoresByNamesDateRange(){
 		Score score1 = new Score(1, 100, "TestPlayer", "2020-10-10 20:00:00");
 		Score score2 = new Score(2, 200, "TestPlayer", "2021-10-10 20:00:00");
 
@@ -104,7 +104,7 @@ class ScoreControllerUnitTest {
 	}
 
 	@Test
-	public void getPlayerHistoryTest(){
+	public void getPlayerHistory(){
 		Score score1 = new Score(1, 100, "TestPlayer", "2020-10-10 20:00:00");
 		Score score2 = new Score(2, 200, "TestPlayer", "2021-10-10 20:00:00");
 
