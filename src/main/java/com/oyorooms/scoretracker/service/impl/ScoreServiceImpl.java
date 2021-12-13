@@ -43,7 +43,10 @@ public class ScoreServiceImpl implements ScoreService {
 	}
 
 	@Override
-	public List<Score> getScoresByNameListDateRange(List<String> nameList, String afterDate, String beforeDate, Pageable pageable) {
+	public List<Score> getScoresByNameListDateRange(List<String> nameList,
+													String afterDate, 
+													String beforeDate,
+													Pageable pageable) {
 		return scoreRepository.findScoresByNameListDateRange(nameList, afterDate, beforeDate, pageable);
 	}
 

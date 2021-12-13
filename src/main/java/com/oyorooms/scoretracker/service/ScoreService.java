@@ -16,7 +16,10 @@ public interface ScoreService {
 		
 	List<Score> getScoresByDateRange(String afterDate, String beforeDate, Pageable pageable);
 	
-	List<Score> getScoresByNameListDateRange(List<String> nameList, String afterDate, String beforeDate, Pageable pageable);
+	List<Score> getScoresByNameListDateRange(List<String> nameList,
+											 String afterDate,
+											 String beforeDate,
+											 Pageable pageable);
 
 	HashMap<String, Object> getPlayerHistory(String name);
 }
