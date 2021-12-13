@@ -60,6 +60,17 @@ class ScoreControllerIntegrationTest {
     }
 
     @Test
+    void getListOfScoresWithParamaters() {
+        String parameterString = "?name=TestPlayer,TestPlayer2&afterDate=2020-01-01&beforeDate=2022-01-01&pageNumber=2&pageSize=5&sortBy=name&sortDir=desc";
+        ResponseEntity<String> responseEntity = restTemplate.exchange(URL + parameterString,
+                HttpMethod.GET,
+                new HttpEntity<>(""),
+                String.class);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    }
+
+    @Test
     void getPlayerHistory() {
         ResponseEntity<Object> responseEntity = restTemplate.exchange(URL + "history?name=TestPlayer",
                 HttpMethod.GET,
